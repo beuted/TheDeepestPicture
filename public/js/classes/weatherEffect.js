@@ -18,7 +18,7 @@ WeatherEffect.prototype.setup = function(scene) {
 
 		geometry.vertices.push(vertex);
 
-		var pointMaterial = new THREE.PointsMaterial({ size: Math.random() * 15 + 5, color: 0xFFFFFF, depthTest: true});
+		var pointMaterial = new THREE.PointsMaterial({ size: 12, color: 0xFFFFFF, depthTest: true});
 	}
 
 	this.particles = new THREE.Points(geometry, pointMaterial);
@@ -42,7 +42,7 @@ WeatherEffect.prototype.update = function() {
 		particle.setZ(particle.z + this.windSpeed.z);
 		this.particles.geometry.verticesNeedUpdate = true;
 
-		if (particle.y < -500) {
+		if (particle.y < -512) {
 			particle.setY(1000 + Math.random() * 4000);
 		}
 
