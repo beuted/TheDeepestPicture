@@ -108,7 +108,7 @@ function init() {
 	scene.add(controls.getObject());
 	
 	// Add the snow
-	snowEffect.setup();
+	snowEffect.setup(scene);
 	
 	// Add map trees and floor
 	map.init(10,0);
@@ -170,12 +170,11 @@ function render() {
 	// render of the eyes in the night
 	nightEffects.render(renderer, camera);
 
+	// render of the snow
+	snowEffect.render(renderer, camera);
+
 	// render trees and floor
 	map.render(renderer, scene, camera)
-
-	// render of the snow
-	snowEffect.render(renderer, controls);
-
 }
 
 function checkWallCollision(o) {
