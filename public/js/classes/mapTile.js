@@ -1,16 +1,13 @@
 // The map class contain all the information about the map :
 // - position of trees
 
-function MapTile(textureLoader, fileName, numberOfTrees) {
+function MapTile(textureLoader, numberOfTrees, position = { x: 0, z: 0 }) {
 	// standard attributs
-	this.fileName = fileName;
 	this.size = [10000, 10000]; //In unit size
 	this.treeSize = 100;
+	this.position = position;
 
 	this.textureLoader = textureLoader;
-
-	this.sceneFloor = new THREE.Scene();
-	this.sceneFloor.fog = new THREE.FogExp2(0x000000, 0.0008);
 	
 	// 0 nothing
 	// 1 tree
@@ -20,12 +17,12 @@ function MapTile(textureLoader, fileName, numberOfTrees) {
 	this.listObj = [];
 
 	for (var i = 0; i < numberOfTrees; i++) {
-		p = new THREE.Vector2(Math.random() * this.size[0], Math.random() * this.size[1]),
+		p = new THREE.Vector2(this.position.x * 10000 + Math.random() * this.size[0], position.z * 10000 + Math.random() * this.size[1]),
 		
 		this.listTreePosition[i] = [1, p.x, p.y];
 	}
 
-	this.weatherEffect = new WeatherEffect(this.textureLoader);
+	this.weatherEffect = new WeatherEffect(this.textureLoader, this.position);
 }
 
 MapTile.prototype.setup = function(scene, controls) {
@@ -38,7 +35,9 @@ MapTile.prototype.setup = function(scene, controls) {
 	orientation.makeRotationFromEuler(new THREE.Euler(Math.PI/2, 0, 0, "YXZ")); //rotate on X 90 degrees
 	orientation.setPosition(new THREE.Vector3(5000,-500,5000)); //move half way on Z, since default pivot is at centre
 	floor.applyMatrix(orientation); //apply transformation for geometry
-	this.sceneFloor.add(floor);
+	floor.translateX(this.position.x*10000);
+	floor.translateY(this.position.z*10000);
+	scene.add(floor);
 
 	// Add trees
 	for (var i = 0; i < this.listTreePosition.length; i++) {
@@ -69,7 +68,6 @@ MapTile.prototype.update = function() {
 }
 
 MapTile.prototype.render = function(renderer, scene, camera) {
-	renderer.render(this.sceneFloor, camera);
 	renderer.render(scene, camera);	
 }
 

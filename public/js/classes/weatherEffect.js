@@ -1,5 +1,6 @@
-function WeatherEffect(textureLoader) {
+function WeatherEffect(textureLoader, position) {
     this.textureLoader = textureLoader;
+	this.position = position;
 
     this.particleCount = 20000;
     this.weather = 0;
@@ -12,9 +13,9 @@ WeatherEffect.prototype.setup = function(scene) {
 
 	for (var i = 0; i < this.particleCount; i++) {
 		var vertex = new THREE.Vector3();
-		vertex.x = Math.random() * 10000;
+		vertex.x = Math.random() * 10000 + this.position.x * 10000;
 		vertex.y = Math.random() * 4000;
-		vertex.z = Math.random() * 10000;
+		vertex.z = Math.random() * 10000 + this.position.z * 10000;
 
 		geometry.vertices.push(vertex);
 
@@ -46,19 +47,19 @@ WeatherEffect.prototype.update = function() {
 			particle.setY(1000 + Math.random() * 4000);
 		}
 
-		if (particle.z < 0) {
+		if (particle.z < this.position.z * 10000) {
 			particle.setZ(10000);
 		}
 
-		if (particle.z > 10000) {
+		if (particle.z > this.position.z * 10000 + 10000) {
 			particle.setZ(0);
 		}
 
-		if (particle.x < 0) {
+		if (particle.x < this.position.x * 10000) {
 			particle.setX(10000);
 		}
 
-		if (particle.x > 10000) {
+		if (particle.x > this.position.x * 10000 + 10000) {
 			particle.setX(0);
 		}
 	}
