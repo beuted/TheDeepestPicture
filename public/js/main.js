@@ -15,7 +15,7 @@ var textureLoader = new THREE.TextureLoader();
 var hero = new Hero('beuted');
 
 // Creation of the mapTile object
-var mapTile = new MapTile(textureLoader, 'test');
+var mapTile = new MapTile(textureLoader, 'test', 10);
 
 // Creation of night effects
 var nightEffects = new NightEffects(textureLoader, new THREE.Vector3(100,100,100));
@@ -106,8 +106,7 @@ function init() {
 	
 	scene.add(controls.getObject());
 	
-	// Add mapTile trees and floor
-	mapTile.init(10,0);
+	// Add mapTile trees, floor and weather
 	mapTile.setup(scene, controls);
 	
 	// Add all fixed effects other than weather particles like eyes in the dark

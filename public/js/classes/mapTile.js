@@ -1,7 +1,7 @@
 // The map class contain all the information about the map :
 // - position of trees
 
-function MapTile(textureLoader, fileName) {
+function MapTile(textureLoader, fileName, numberOfTrees) {
 	// standard attributs
 	this.fileName = fileName;
 	this.size = [10000, 10000]; //In unit size
@@ -14,24 +14,18 @@ function MapTile(textureLoader, fileName) {
 	
 	// 0 nothing
 	// 1 tree
-	this.listObjPosition =  new Array();
-	this.listObjPosition[0] = [1,400,0];
-	this.listObjPosition[1] = [1,0,400];
+	this.listTreePosition =  new Array();
+	this.listTreePosition[0] = [1,400,0];
+	this.listTreePosition[1] = [1,0,400];
 	this.listObj = [];
 
-	this.weatherEffect = new WeatherEffect(this.textureLoader);
-	
-}
-
-// N = number of tree
-// minDist = minimal distance between trees
-
-MapTile.prototype.init = function(N, minDist) {
-	for (var i = 0; i < N; i++) {
+	for (var i = 0; i < numberOfTrees; i++) {
 		p = new THREE.Vector2(Math.random() * this.size[0], Math.random() * this.size[1]),
 		
-		this.listObjPosition[i] = [1, p.x, p.y];
+		this.listTreePosition[i] = [1, p.x, p.y];
 	}
+
+	this.weatherEffect = new WeatherEffect(this.textureLoader);
 }
 
 MapTile.prototype.setup = function(scene, controls) {
@@ -47,15 +41,15 @@ MapTile.prototype.setup = function(scene, controls) {
 	this.sceneFloor.add(floor);
 
 	// Add trees
-	for (var i = 0; i < this.listObjPosition.length; i++) {
+	for (var i = 0; i < this.listTreePosition.length; i++) {
 		var textTree = this.textureLoader.load('images/sprites/tree.png');
 		textTree.minFilter = THREE.LinearFilter;
 		textTree.magFilter = THREE.NearestFilter;
 		var material = new THREE.MeshLambertMaterial({ map: textTree , transparent: true, side: THREE.DoubleSide});
 		var plane = new THREE.Mesh(new THREE.PlaneGeometry(720, 1920), material);
 
-		plane.position.x = this.listObjPosition[i][1];
-		plane.position.z = this.listObjPosition[i][2];
+		plane.position.x = this.listTreePosition[i][1];
+		plane.position.z = this.listTreePosition[i][2];
 		plane.position.y = 500;
 
 		this.listObj.push(plane);
@@ -81,9 +75,9 @@ MapTile.prototype.render = function(renderer, scene, camera) {
 
 // Go througth the list of object on the map to check collision
 MapTile.prototype.checkTreeCollision = function(o) {
-	for (var i = 0; i < this.listObjPosition.length; i++) {
-		var a = (hero.hitbox.position.x - this.listObjPosition[i][1]);
-		var b = (hero.hitbox.position.z - this.listObjPosition[i][2]);
+	for (var i = 0; i < this.listTreePosition.length; i++) {
+		var a = (hero.hitbox.position.x - this.listTreePosition[i][1]);
+		var b = (hero.hitbox.position.z - this.listTreePosition[i][2]);
 		if (a*a +  b*b < this.treeSize*this.treeSize)
 			return true;
 	}
