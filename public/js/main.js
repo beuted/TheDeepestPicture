@@ -14,8 +14,8 @@ var textureLoader = new THREE.TextureLoader();
 // Creation of the hero object
 var hero = new Hero('beuted');
 
-// Creation of the map object
-var map = new Map(textureLoader, 'test');
+// Creation of the mapTile object
+var mapTile = new MapTile(textureLoader, 'test');
 
 // Creation of night effects
 var nightEffects = new NightEffects(textureLoader, new THREE.Vector3(100,100,100));
@@ -106,9 +106,9 @@ function init() {
 	
 	scene.add(controls.getObject());
 	
-	// Add map trees and floor
-	map.init(10,0);
-	map.setup(scene, controls);
+	// Add mapTile trees and floor
+	mapTile.init(10,0);
+	mapTile.setup(scene, controls);
 	
 	// Add all fixed effects other than weather particles like eyes in the dark
 	nightEffects.init(10, 0);
@@ -151,7 +151,7 @@ function animate() {
 	requestAnimationFrame(animate);
 
 	render();
-	map.update();
+	mapTile.update();
 	nightEffects.update(hero);
 	stats.update();
 }
@@ -166,9 +166,9 @@ function render() {
 	nightEffects.render(renderer, camera);
 
 	// render trees and floor and weather
-	map.render(renderer, scene, camera)
+	mapTile.render(renderer, scene, camera)
 }
 
 function checkWallCollision(o) {
-	return ((o.hitbox.position.y < 0) || map.checkTreeCollision(hero));
+	return ((o.hitbox.position.y < 0) || mapTile.checkTreeCollision(hero));
 }

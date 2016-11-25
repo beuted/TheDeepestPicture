@@ -1,7 +1,7 @@
 // The map class contain all the information about the map :
 // - position of trees
 
-function Map(textureLoader, fileName) {
+function MapTile(textureLoader, fileName) {
 	// standard attributs
 	this.fileName = fileName;
 	this.size = [10000, 10000]; //In unit size
@@ -26,7 +26,7 @@ function Map(textureLoader, fileName) {
 // N = number of tree
 // minDist = minimal distance between trees
 
-Map.prototype.init = function(N, minDist) {
+MapTile.prototype.init = function(N, minDist) {
 	for (var i = 0; i < N; i++) {
 		p = new THREE.Vector2(Math.random() * this.size[0], Math.random() * this.size[1]),
 		
@@ -34,7 +34,7 @@ Map.prototype.init = function(N, minDist) {
 	}
 }
 
-Map.prototype.setup = function(scene, controls) {
+MapTile.prototype.setup = function(scene, controls) {
 	// Add the floor
 	var floorTexture = textureLoader.load("images/sprites/snow.png");
 	floorTexture.minFilter = THREE.LinearFilter;
@@ -66,21 +66,21 @@ Map.prototype.setup = function(scene, controls) {
 	this.weatherEffect.setup(scene);
 }
 
-Map.prototype.update = function() {
+MapTile.prototype.update = function() {
 	for (var i = 0; i < this.listObj.length; i++) {
 		this.listObj[i].setRotationFromQuaternion(controls.getObject().quaternion);
 	}
-
+ 
 	this.weatherEffect.update();
 }
 
-Map.prototype.render = function(renderer, scene, camera) {
+MapTile.prototype.render = function(renderer, scene, camera) {
 	renderer.render(this.sceneFloor, camera);
 	renderer.render(scene, camera);	
 }
 
 // Go througth the list of object on the map to check collision
-Map.prototype.checkTreeCollision = function(o) {
+MapTile.prototype.checkTreeCollision = function(o) {
 	for (var i = 0; i < this.listObjPosition.length; i++) {
 		var a = (hero.hitbox.position.x - this.listObjPosition[i][1]);
 		var b = (hero.hitbox.position.z - this.listObjPosition[i][2]);
