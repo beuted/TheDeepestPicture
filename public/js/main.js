@@ -19,7 +19,6 @@ var map = new Map(textureLoader, 'test');
 
 // Creation of night effects
 var nightEffects = new NightEffects(textureLoader, new THREE.Vector3(100,100,100));
-var weatherEffect = new WeatherEffect(textureLoader);
 
 $(document).ready(function() {
 	var blocker = document.getElementById('blocker');
@@ -107,9 +106,6 @@ function init() {
 	
 	scene.add(controls.getObject());
 	
-	// Add the weather
-	weatherEffect.setup(scene);
-	
 	// Add map trees and floor
 	map.init(10,0);
 	map.setup(scene, controls);
@@ -156,7 +152,6 @@ function animate() {
 
 	render();
 	map.update();
-	weatherEffect.update();
 	nightEffects.update(hero);
 	stats.update();
 }
@@ -170,10 +165,7 @@ function render() {
 	// render of the eyes in the night
 	nightEffects.render(renderer, camera);
 
-	// render of the snow
-	weatherEffect.render(renderer, camera);
-
-	// render trees and floor
+	// render trees and floor and weather
 	map.render(renderer, scene, camera)
 }
 

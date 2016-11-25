@@ -18,6 +18,8 @@ function Map(textureLoader, fileName) {
 	this.listObjPosition[0] = [1,400,0];
 	this.listObjPosition[1] = [1,0,400];
 	this.listObj = [];
+
+	this.weatherEffect = new WeatherEffect(this.textureLoader);
 	
 }
 
@@ -60,12 +62,16 @@ Map.prototype.setup = function(scene, controls) {
 		
 		scene.add(plane);
 	}
+
+	this.weatherEffect.setup(scene);
 }
 
 Map.prototype.update = function() {
 	for (var i = 0; i < this.listObj.length; i++) {
-		this.listObj[i].setRotationFromQuaternion( controls.getObject().quaternion );
+		this.listObj[i].setRotationFromQuaternion(controls.getObject().quaternion);
 	}
+
+	this.weatherEffect.update();
 }
 
 Map.prototype.render = function(renderer, scene, camera) {
@@ -81,6 +87,6 @@ Map.prototype.checkTreeCollision = function(o) {
 		if (a*a +  b*b < this.treeSize*this.treeSize)
 			return true;
 	}
-	
+
 	return false;
 }
