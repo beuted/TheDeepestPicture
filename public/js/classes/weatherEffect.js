@@ -68,3 +68,7 @@ WeatherEffect.prototype.update = function() {
 WeatherEffect.prototype.render = function(renderer, scene, camera) {
 	//renderer.render(scene, camera);
 }
+
+WeatherEffect.prototype.destroy = function() {
+	scene.remove(this.particles);
+}

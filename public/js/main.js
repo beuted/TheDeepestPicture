@@ -150,7 +150,7 @@ function animate() {
 	requestAnimationFrame(animate);
 
 	render();
-	map.update();
+	map.update(scene);
 	nightEffects.update(hero);
 	stats.update();
 }

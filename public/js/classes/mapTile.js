@@ -15,6 +15,7 @@ function MapTile(textureLoader, numberOfTrees, position = { x: 0, z: 0 }) {
 	this.listTreePosition[0] = [1,400,0];
 	this.listTreePosition[1] = [1,0,400];
 	this.listObj = [];
+	this.floor = null;
 
 	for (var i = 0; i < numberOfTrees; i++) {
 		p = new THREE.Vector2(this.position.x * 10000 + Math.random() * this.size[0], position.z * 10000 + Math.random() * this.size[1]),
@@ -30,14 +31,14 @@ MapTile.prototype.setup = function(scene, controls) {
 	var floorTexture = textureLoader.load("images/sprites/snow.png");
 	floorTexture.minFilter = THREE.LinearFilter;
 	var matFloor = new THREE.MeshBasicMaterial({ map: floorTexture, transparent: true, side: THREE.DoubleSide });
-	var floor = new THREE.Mesh(new THREE.PlaneGeometry(10000, 10000), matFloor);
+	this.floor = new THREE.Mesh(new THREE.PlaneGeometry(10000, 10000), matFloor);
 	var orientation = new THREE.Matrix4();
 	orientation.makeRotationFromEuler(new THREE.Euler(Math.PI/2, 0, 0, "YXZ")); //rotate on X 90 degrees
 	orientation.setPosition(new THREE.Vector3(5000,-500,5000)); //move half way on Z, since default pivot is at centre
-	floor.applyMatrix(orientation); //apply transformation for geometry
-	floor.translateX(this.position.x*10000);
-	floor.translateY(this.position.z*10000);
-	scene.add(floor);
+	this.floor.applyMatrix(orientation); //apply transformation for geometry
+	this.floor.translateX(this.position.x*10000);
+	this.floor.translateY(this.position.z*10000);
+	scene.add(this.floor);
 
 	// Add trees
 	for (var i = 0; i < this.listTreePosition.length; i++) {
@@ -69,6 +70,11 @@ MapTile.prototype.update = function() {
 
 MapTile.prototype.render = function(renderer, scene, camera) {
 	renderer.render(scene, camera);	
+}
+
+MapTile.prototype.destroy = function() {
+	scene.remove(this.floor);
+	this.weatherEffect.destroy();
 }
 
 // Go througth the list of object on the map to check collision
