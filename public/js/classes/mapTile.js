@@ -74,6 +74,11 @@ MapTile.prototype.render = function(renderer, scene, camera) {
 
 MapTile.prototype.destroy = function() {
 	scene.remove(this.floor);
+
+	for (var i = 0; i < this.listObj.length; i++) {
+		scene.remove(this.listObj[i]);
+	}
+
 	this.weatherEffect.destroy();
 }
 
