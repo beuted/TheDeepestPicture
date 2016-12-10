@@ -111,3 +111,13 @@ Map.prototype.setupWithPosition = function(scene, controls, direction) {
         }
     }
 }
+
+Map.prototype.checkTreeCollision = function(hero) {
+	for (var x = -1; x < 2; x++) {
+        for (var z = -1; z < 2; z++) {
+            if (this.mapArray[x][z].checkTreeCollision(hero))
+            return true;
+        }
+    }
+    return false
+}

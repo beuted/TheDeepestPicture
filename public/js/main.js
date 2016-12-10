@@ -169,5 +169,5 @@ function render() {
 }
 
 function checkWallCollision(o) {
-	return (o.hitbox.position.y < 0);//return ((o.hitbox.position.y < 0) || map.checkTreeCollision(hero));
+	return ((o.hitbox.position.y < 0) || map.checkTreeCollision(hero));
 }

@@ -83,7 +83,7 @@ MapTile.prototype.destroy = function() {
 }
 
 // Go througth the list of object on the map to check collision
-MapTile.prototype.checkTreeCollision = function(o) {
+MapTile.prototype.checkTreeCollision = function(hero) {
 	for (var i = 0; i < this.listTreePosition.length; i++) {
 		var a = (hero.hitbox.position.x - this.listTreePosition[i][1]);
 		var b = (hero.hitbox.position.z - this.listTreePosition[i][2]);
