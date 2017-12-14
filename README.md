@@ -4,7 +4,7 @@ WebGL experimentations
 
 I took back [what I did several years ago](https://github.com/beuted/WebGL-Billboard) when I didn't know shit about js and tryied to move it to an horror game
 
-## Techo
+## Technos
 
 * ES6
 * [Three.js](https://threejs.org/)
